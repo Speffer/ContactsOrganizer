@@ -32,7 +32,7 @@ let contactColumns = [{
   }, {
     title: 'Telefones',
     dataIndex: 'phones',
-    width: 400,
+    width: 600,
     scopedSlots: { customRender: 'phones' }
   }, {
     title: 'Data de cadastro',

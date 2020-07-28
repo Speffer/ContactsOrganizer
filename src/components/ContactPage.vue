@@ -8,60 +8,30 @@
     :scrollSize="{ x: 'calc(1600px + 50%)', y: 400 }"
     :editableCells="['name', 'company']"
     :filterCells="['id', 'name', 'company.name', 'company.fantasyName', 'company.city', 'company.document']"
+    :updateAction="updateContact"
   />
 </div>
 </template>
 
 <script>
 import contactColumns from '../helpers/constants/contactColumns';
-
-const data = [];
-for (let i = 0; i < 40; i++) {
-  data.push({
-    id: i,
-    key: i.toString(),
-    name: `Edrward ${i}`,
-    company: {
-      name: 'Empresa',
-      document: `${i}${i}${i}${i}${i}${i}${i}`,
-      city: `cidade${i}`,
-      RG: `${i}${i}${i}${i}${i}${i}${i}`,
-      birthday: '10/10/1990',
-      fantasyName: 'aaaaaaaaa'
-    },
-    phones: [{
-      number: `(${i}${i})${i}${i}${i}${i}${i}`,
-      id: i,
-      userId: i
-    }, {
-      number: `(${i}${i})${i}${i}${i}${i}${i}`,
-      id: i,
-      userId: i
-    }, {
-      number: `(${i}${i})${i}${i}${i}${i}${i}`,
-      id: i,
-      userId: i
-    }, {
-      number: `(${i}${i})${i}${i}${i}${i}${i}`,
-      id: i,
-      userId: i
-    }],
-    createdAt: '10/10/2018',
-    updatedAt: '10/10/2018'
-  });
-}
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'ContactPage',
   data() {
     return {
-      data,
       columns: contactColumns
     };
+  },
+  computed: {
+    ...mapState({
+      data: state => state.contact.contacts
+    })
+  },
+  methods: {
+    ...mapActions('contact', ['updateContact'])
   }
-  // methods: {
-    
-  // },
 };
 </script>
 

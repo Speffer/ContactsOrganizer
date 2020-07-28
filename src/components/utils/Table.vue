@@ -64,7 +64,7 @@
     <span slot="phones" slot-scope="phones">
       <template v-for="(phone, i) in phones">
         <span v-if="phones.length" :key="phone.id+i">
-          {{ phone.number }}
+          {{ phone.number }} | 
         </span>
         <template v-else>
           Sem número cadastrado
@@ -145,7 +145,8 @@ export default {
     'pageNumber', 
     'scrollSize', 
     'editableCells',
-    'filterCells'
+    'filterCells',
+    'updateAction'
   ],
   data() {
     return {
@@ -156,12 +157,6 @@ export default {
       cacheData: [],
       data: this.dataSource
     };
-  },
-  computed: {
-    cacheDataRenew: function() {
-      let newCache = [...this.data];
-      return newCache;
-    }
   },
   methods: {
     handleChange(value, key, column) {
@@ -187,16 +182,15 @@ export default {
     },
     save(key) {
       const newData = [...this.data];
-      const newCacheData = [...this.cacheDataRenew()];
       const target = newData.filter(item => key === item.key)[0];
-      const targetCache = newCacheData.filter(item => key === item.key)[0];
-      if (target && targetCache) {
+      if (target) {
         delete target.editable;
         this.data = newData;
-        Object.assign(targetCache, target);
-        this.cacheData = newCacheData;
+        Object.assign(target);
+        this.cacheData = newData;
       }
       this.editingKey = null;
+      this.updateAction(target);
     },
     cancel(key) {
       const newData = [...this.data];
