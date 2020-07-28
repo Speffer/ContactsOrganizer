@@ -6,7 +6,7 @@
     title="Contatos" 
     :pageNumber="30" 
     :scrollSize="{ x: 'calc(1600px + 50%)', y: 400 }"
-    :editableCells="['name', 'company', 'phones']"
+    :editableCells="['name', 'company']"
     :filterCells="['id', 'name', 'company.name', 'company.fantasyName', 'company.city', 'company.document']"
   />
 </div>
@@ -18,7 +18,7 @@ import contactColumns from '../helpers/constants/contactColumns';
 const data = [];
 for (let i = 0; i < 40; i++) {
   data.push({
-    id: i.toString(),
+    id: i,
     key: i.toString(),
     name: `Edrward ${i}`,
     company: {
@@ -29,7 +29,23 @@ for (let i = 0; i < 40; i++) {
       birthday: '10/10/1990',
       fantasyName: 'aaaaaaaaa'
     },
-    phones: `(${i}${i})${i}${i}${i}${i}${i}`,
+    phones: [{
+      number: `(${i}${i})${i}${i}${i}${i}${i}`,
+      id: i,
+      userId: i
+    }, {
+      number: `(${i}${i})${i}${i}${i}${i}${i}`,
+      id: i,
+      userId: i
+    }, {
+      number: `(${i}${i})${i}${i}${i}${i}${i}`,
+      id: i,
+      userId: i
+    }, {
+      number: `(${i}${i})${i}${i}${i}${i}${i}`,
+      id: i,
+      userId: i
+    }],
     createdAt: '10/10/2018',
     updatedAt: '10/10/2018'
   });

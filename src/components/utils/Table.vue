@@ -60,12 +60,24 @@
         {{ text }}
       </template>
     </template>
+        
+    <span slot="phones" slot-scope="phones">
+      <template v-for="(phone, i) in phones">
+        <span v-if="phones.length" :key="phone.id+i">
+          {{ phone.number }}
+        </span>
+        <template v-else>
+          Sem número cadastrado
+        </template>
+      </template>
+    </span>
+
     <template
-      v-for="(col, i) in editableCells"
+      v-for="col in editableCells"
       :slot="col"
       slot-scope="text, record"
     >
-      <div :key="i">
+      <div :key="col">
         <a-input
           v-if="record.editable"
           style="margin: -5px 0"
