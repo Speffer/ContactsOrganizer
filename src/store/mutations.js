@@ -33,7 +33,7 @@ const companyMutations = () => {
     },
     updateCompany: (state, newCompany) => {
       let oldCompany = state.companies.findIndex((value) => newCompany.id === value.id);
-      state.contacts.splice(oldCompany, 1, newCompany);
+      state.companies.splice(oldCompany, 1, newCompany);
     },
     deleteCompany: (state, company) => {
       let oldCompany = state.companies.findIndex((value) => company.id === value.id);

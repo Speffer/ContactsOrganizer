@@ -1,12 +1,5 @@
 <template>
 <div>
-  <div class="pageHeader">
-    <h1 class="pageTitle">Lista de {{ title }}</h1>
-    <a-button class="pageButtons" type="primary">
-      <a-icon type="plus-circle" />
-      Adicionar {{ title }}
-    </a-button>
-  </div>
   <a-table 
     :columns="columns" 
     :data-source="data" 
@@ -141,12 +134,12 @@ export default {
   props: [
     'dataSource', 
     'columns', 
-    'title', 
     'pageNumber', 
     'scrollSize', 
     'editableCells',
     'filterCells',
-    'updateAction'
+    'updateAction',
+    'deleteAction'
   ],
   data() {
     return {
@@ -169,7 +162,8 @@ export default {
     },
     onDelete(key) {
       const data = [...this.data];
-      this.data = data.filter(item => item.key !== key);
+      const target = data.filter(item => key === item.key)[0];
+      this.deleteAction(target);
     },
     edit(key) {
       const newData = [...this.data];
@@ -216,17 +210,5 @@ export default {
 </script>
 
 <style scoped>
-.pageHeader {
-  padding-bottom: 60px;
-}
 
-.pageTitle {
-  color: #1890ff;
-  float: left;
-}
-
-.pageButtons {
-  font-size: 15px;
-  float: right;
-}
 </style>
