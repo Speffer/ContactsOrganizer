@@ -14,7 +14,7 @@ const contactMutations = () => {
       state.contacts.splice(oldContact, 1, newContact);
     },
     deleteContact: (state, contact) => {
-      let oldContact = state.contacts.findIndex((value) => contact.id === value.id);
+      let oldContact = state.contacts.findIndex((value) => contact === value.id);
       state.contacts.splice(oldContact, 1);
     }
   };

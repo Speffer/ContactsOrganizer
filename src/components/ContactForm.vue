@@ -5,10 +5,13 @@
         <a-input v-model="form.name" />
       </a-form-model-item>
 
-      <a-form-model-item prop="company" label="Empresa">
-        <a-select v-model="form.company" placeholder="Selecione a Empresa">
+      <a-form-model-item prop="company_id" label="Empresa">
+        <a-select v-model="form.company_id" placeholder="Selecione a Empresa">
+          <div v-if="companies.length === 0">
+            Por favor adicione ao menos uma empresa antes de criar um contato
+          </div>
           <a-select-option v-for="company in companies" :key="company.id" :value="company.id">
-            {{ company.name }}
+              {{ company.name }}
           </a-select-option>
         </a-select>
       </a-form-model-item>
@@ -16,14 +19,13 @@
       <a-form-model-item
         v-for="(phone, index) in form.phones"
         :key="phone.key"
-        v-bind="index === 0 ? formItemLayout : {}"
         :label="index === 0 ? 'Telefones' : ''"
         :prop="'phones.' + index + '.value'"
       >
         <a-input
           v-model="phone.value"
           placeholder="Por favor escreva seu telefone"
-          style="width: 60%; margin-right: 8px"
+          style="width: 80%; margin-right: 8px"
         />
         <a-icon
           v-if="form.phones.length > 1"
@@ -33,9 +35,9 @@
           @click="removePhone(phone)"
         />
       </a-form-model-item>
-      <a-form-model-item v-bind="formItemLayoutWithOutLabel">
-        <a-button type="dashed" style="width: 60%" @click="addPhone">
-          <a-icon type="plus" /> Add field
+      <a-form-model-item >
+        <a-button type="dashed" @click="addPhone">
+          <a-icon type="plus" /> Adicionar Telefone
         </a-button>
       </a-form-model-item>
     </a-form-model>
@@ -43,8 +45,6 @@
 </template>
 
 <script>
-import documentType from '../helpers/constants/documentType';
-import locale from 'ant-design-vue/es/date-picker/locale/pt_BR';
 import { mapState } from 'vuex';
 
 export default {
@@ -54,36 +54,18 @@ export default {
   ],
   data() {
     return {
-      documentType,
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
-      locale,
       rules: {
         name: [{
           required: true, message: 'Por favor preencha o nome', trigger: 'blur'
         }],
-        company: [{
+        company_id: [{
           required: true, message: 'Por favor escolha a empresa', trigger: 'blur'
         }],
         phones: [{
           required: true, message: 'Por favor preencha ao menos um número', trigger: 'blur'
         }]
-      },
-      formItemLayout: {
-        labelCol: {
-          xs: { span: 24 },
-          sm: { span: 4 }
-        },
-        wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 20 }
-        }
-      },
-      formItemLayoutWithOutLabel: {
-        wrapperCol: {
-          xs: { span: 24, offset: 0 },
-          sm: { span: 20, offset: 4 }
-        }
       }
     };
   },

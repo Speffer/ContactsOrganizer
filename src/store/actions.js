@@ -6,48 +6,40 @@ import moment from 'moment';
 const contactActions = () => {
   return {
     storeContacts: (store) => {
-      try {
-        contactService.getContact()
-          .then(res => {
-            let data = [...res.data.contacts];
+      contactService.getContacts()
+        .then(res => {
+          let data = [...res.data.contacts];
 
-            data.forEach(column => { column['key'] = column.id });
-            store.commit('storeContacts', data);
-          })
-          .catch(e => e);
-      } catch (e) {
-        
-      }
+          data.forEach(column => { column['key'] = column.id });
+          store.commit('storeContacts', data);
+        })
+        .catch(e => e);
+    },
+
+    getContact: (store, id) => {
+      contactService.getContact(id)
+        .then(({ data }) => {
+          store.commit('storeContact', { ...data, key: data.id });
+        })
+        .catch(e => e);
     },
 
     newContact: (store, newContact) => {
-      try {
-        contactService.createContact(newContact)
-          .then(res => store.commit('addContact', res.data))
-          .catch(e => e);
-      } catch (e) {
-
-      }
+      contactService.createContact(newContact)
+        .then(res => store.commit('addContact', { ...res.data, key: res.data.id }))
+        .catch(e => e);
     },
 
     updateContact: (store, newContact) => {
-      try {
-        contactService.updateContact(newContact, newContact.id)
-          .then(res => store.commit('updateContact', res.data))
-          .catch(e => e);
-      } catch (e) {
-
-      }
+      contactService.updateContact(newContact, newContact.id)
+        .then(res => store.commit('updateContact', { ...res.data, key: res.data.id }))
+        .catch(e => e);
     },
 
     deleteContact: (store, contact) => {
-      try {
-        contactService.deleteContact(contact.id)
-          .then(() => store.commit('deleteContact', contact))
-          .catch(e => e);
-      } catch (e) {
-
-      }
+      contactService.deleteContact(contact)
+        .then(() => store.commit('deleteContact', contact))
+        .catch(e => e);
     }
   };
 };

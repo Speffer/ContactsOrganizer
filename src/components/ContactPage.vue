@@ -7,19 +7,15 @@
       Adicionar Contato
     </a-button>
   </div>
-  <a-skeleton :loading="loading" active >
-    <Table 
-      :dataSource="data" 
-      :columns="columns" 
-      title="Contatos" 
-      :pageNumber="30" 
-      :scrollSize="{ x: 'calc(1600px + 50%)', y: 400 }"
-      :editableCells="['name', 'company']"
-      :filterCells="['id', 'name', 'company.name', 'company.fantasyName', 'company.city', 'company.document']"
-      :updateAction="updateContact"
-      :deleteAction="deleteContact"
-    />
-  </a-skeleton>
+  <Table
+    page="contact" 
+    :dataSource="data" 
+    :loading="loading"
+    :columns="columns" 
+    :pageNumber="30" 
+    :scrollSize="{ y: 400 }"
+    :filterCells="['id', 'name', 'company.name', 'company.fantasyName', 'company.city', 'company.document']"
+  />
   
   <a-modal
       title="Adicionar Novo Contato"
@@ -60,7 +56,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('contact', ['updateContact', 'deleteContact', 'newContact']),
+    ...mapActions('contact', ['newContact', 'storeContacts']),
     changeModal() {
       this.visible = !this.visible;
     },
@@ -68,34 +64,40 @@ export default {
     resetForm() {
       this.form = {
         name: '',
-        company: '',
+        company_id: '',
         phones: []
       };
     },
-    async handleOk(e) {
+    async handleOk() {
       try {
+        let phonesData = [];
         this.confirmLoading = true;
-
-        this.form['id'] = 6;
-        this.form['key'] = 6;
         
         this.form.phones.forEach((phone, index) => {
-          this.form.phones[index]['number'] = phone.value;
-          this.form.phones[index]['id'] = phone.key;
-          this.form.phones[index]['userId'] = index;
+          phonesData.push(phone.value);
         });
 
-        this.newContact(this.form);
-        
-        setTimeout(() => {
-          this.visible = false;
-          this.confirmLoading = false;
-          this.resetForm();
-        }, 3000);
+        this.form.phones = phonesData;
+
+        await this.newContact(this.form)
+          .then(() => {
+            this.visible = false;
+            this.confirmLoading = false;
+            this.resetForm();
+          })
+          .catch(e => this.$swal({
+            icon: 'error',
+            title: 'Oops...',
+            text: e
+          }));
       } catch (e) {
 
       }
     }
+  },
+  mounted: function() {
+    this.$store.dispatch('contact/storeContacts')
+      .then(() => { this.loading = false });
   }
 };
 </script>

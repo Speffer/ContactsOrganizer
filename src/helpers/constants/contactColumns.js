@@ -31,17 +31,17 @@ let contactColumns = [{
   }, {
     title: 'Telefones',
     dataIndex: 'phones',
-    width: '40%',
+    width: '30%',
     scopedSlots: { customRender: 'phones' }
   }, {
     title: 'Data de cadastro',
     dataIndex: 'created_at',
-    width: '15%',
+    width: '10%',
     scopedSlots: { customRender: 'created_at' }
   }, {
     title: 'Data da última edição',
     dataIndex: 'updated_at',
-    width: '15%',
+    width: '10%',
     scopedSlots: { customRender: 'updated_at' }
   }]
 }, {
@@ -82,6 +82,7 @@ let contactColumns = [{
       filterDropdown: 'filterDropdown',
       filterIcon: 'filterIcon'
     },
+    width: '10%',
     onFilter: (value, record) =>
       record.company.city
         .toString()
@@ -91,8 +92,7 @@ let contactColumns = [{
 }, {
   title: 'Ação',
   dataIndex: 'operation',
-  width: '5%',
-  fixed: 'right',
+  width: '7%',
   scopedSlots: { customRender: 'operation' }
 }];
 

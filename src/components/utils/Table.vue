@@ -97,6 +97,14 @@
   >
     <CompanySeeMore :form="company" :visible="closeMoreInfo" />
   </a-modal>
+
+  <a-modal
+    v-model="contactMoreVisible"
+    title="Detalhes do Contato"
+    :footer="null"
+  >
+    <ContactSeeMore :form="contact" :visible="closeMoreInfo" />
+  </a-modal>
 </a-skeleton>
 </template>
 
@@ -128,11 +136,13 @@ export default {
   },
   computed: {
     ...mapState({
-      company: state => state.company.company
+      company: state => state.company.company,
+      contact: state => state.contact.contact
     })
   },
   methods: {
     ...mapActions('company', ['getCompany', 'storeCompanies']),
+    ...mapActions('contact', ['getContact', 'storeContacts']),
 
     seeMoreInfo(column) {
       if (this.page === 'company') {
@@ -140,7 +150,10 @@ export default {
           .then(() => { this.companyMoreVisible = true });
       }
 
-      if (this.page === 'contact') this.contactMoreVisible = true;
+      if (this.page === 'contact') {
+        this.getContact(column.id)
+          .then(() => { this.contactMoreVisible = true });
+      }
     },
 
     closeMoreInfo() {
@@ -149,7 +162,10 @@ export default {
           .then(() => { this.companyMoreVisible = false });
       }
 
-      if (this.page === 'contact') this.contactMoreVisible = true;
+      if (this.page === 'contact') {
+        this.storeContacts()
+          .then(() => { this.contactMoreVisible = false });
+      }
     },
 
     handleSearch(selectedKeys, confirm, dataIndex) {

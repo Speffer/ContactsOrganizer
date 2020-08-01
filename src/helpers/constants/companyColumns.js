@@ -41,6 +41,20 @@ let companyColumns = [{
       .includes(value.toLowerCase()),
   width: '20%'
 }, {
+  title: 'Município',
+  dataIndex: 'city',
+  scopedSlots: { 
+    customRender: 'city',
+    filterDropdown: 'filterDropdown',
+    filterIcon: 'filterIcon'
+  },
+  onFilter: (value, record) =>
+    record.city
+      .toString()
+      .toLowerCase()
+      .includes(value.toLowerCase()),
+  width: '20%'
+}, {
   title: 'Data de cadastro',
   dataIndex: 'created_at',
   width: '15%',

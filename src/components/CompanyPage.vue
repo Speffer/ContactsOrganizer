@@ -87,8 +87,7 @@ export default {
       this.refValidate = ref;
     },
 
-    async handleOk(e) {
-      // if (this.refValidate) {
+    async handleOk() {
       try {
         this.confirmLoading = true;
 
@@ -113,7 +112,6 @@ export default {
         });
       }
     }
-    // }
   },
   mounted: function() {
     this.$store.dispatch('company/storeCompanies')

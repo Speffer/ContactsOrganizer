@@ -16,6 +16,10 @@ export default {
     return API.put(`${url}/${id}`, data);
   }, 
 
+  getContact(id) {
+    return API.get(`${url}/${id}`);
+  },
+
   deleteContact(id) {
     return API.delete(`${url}/${id}`);
   }
