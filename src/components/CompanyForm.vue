@@ -36,7 +36,7 @@
       </a-form-model-item>
 
       <a-form-model-item prop="RG" v-if="form.type === documentType.CPF" label="RG">
-        <a-input v-model="form.RG" />
+        <a-input v-model="form.rg" />
       </a-form-model-item>
 
       <a-form-model-item prop="fantasy_name" v-if="form.type === documentType.CNPJ" label="Nome Fantasia">
@@ -72,7 +72,7 @@ export default {
         birthday: [{
           required: this.form.type === documentType.CPF, message: 'Por favor preencha a data de nascimento', trigger: 'blur'
         }],
-        RG: [{
+        rg: [{
           required: this.form.type === documentType.CPF, message: 'Por favor preencha o RG', trigger: 'blur'
         }, {
           message: 'O RG precisa ser composto por números apenas', trigger: 'blur', pattern: /^[0-9]+$/

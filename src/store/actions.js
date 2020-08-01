@@ -1,6 +1,7 @@
 import contactService from '@/services/contactService';
 import companyService from '@/services/companyService';
 import documentType from '../helpers/constants/documentType';
+import moment from 'moment';
 
 const contactActions = () => {
   return {
@@ -68,12 +69,13 @@ const companyActions = () => {
       companyService.getCompanyType(id)
         .then(({ data }) => {
           let company = {
+            key: data.id,
             name: data.company.name,
             city: data.company.city,
             document: data.company.document,
             fantasyName: data.fantasy_name || null,
             rg: data.rg || null,
-            birthday: data.birthday || null,
+            birthday: moment(data.birthday.slice(1, data.birthday.length - 1)).format('YYYY-MM-DD') || null,
             id: data.id,
             companyId: id,
             type: data.company.document.length === 13 ? documentType.CNPJ : documentType.CPF

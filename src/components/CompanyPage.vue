@@ -92,7 +92,7 @@ export default {
       try {
         this.confirmLoading = true;
 
-        if (this.form.birthday) this.form.birthday = moment(this.form.birthday).format('YYYY-DD-MM'); 
+        if (this.form.birthday) this.form.birthday = moment(this.form.birthday).format('YYYY-MM-DD'); 
 
         await this.addCompany(this.form)
           .then(() => {
