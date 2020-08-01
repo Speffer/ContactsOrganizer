@@ -2,26 +2,22 @@
 
 > A Vue.js project
 
-## Build Setup
+## Primeiros Passos
 
 ``` bash
-# install dependencies
+# Clonar o backend (O projeto roda ligando ao backend localmente, primeiramente configure ele pelo link abaixo)
+https://github.com/Speffer/ContactsOrganizerBackend
+
+# Requerimentos para rodar
+Node/npm instalados - https://nodejs.org/en/download/
+Vue/Cli instalado - https://vuejs.org/
+
+# Após clonar e entrar na pasta do projeto rodar:
 npm install
 
-# serve with hot reload at localhost:8080
+# Servir localmente
 npm run dev
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
