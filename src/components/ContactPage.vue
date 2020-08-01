@@ -7,17 +7,20 @@
       Adicionar Contato
     </a-button>
   </div>
-  <Table 
-    :dataSource="data" 
-    :columns="columns" 
-    title="Contatos" 
-    :pageNumber="30" 
-    :scrollSize="{ x: 'calc(1600px + 50%)', y: 400 }"
-    :editableCells="['name', 'company']"
-    :filterCells="['id', 'name', 'company.name', 'company.fantasyName', 'company.city', 'company.document']"
-    :updateAction="updateContact"
-    :deleteAction="deleteContact"
-  />
+  <a-skeleton :loading="loading" active >
+    <Table 
+      :dataSource="data" 
+      :columns="columns" 
+      title="Contatos" 
+      :pageNumber="30" 
+      :scrollSize="{ x: 'calc(1600px + 50%)', y: 400 }"
+      :editableCells="['name', 'company']"
+      :filterCells="['id', 'name', 'company.name', 'company.fantasyName', 'company.city', 'company.document']"
+      :updateAction="updateContact"
+      :deleteAction="deleteContact"
+    />
+  </a-skeleton>
+  
   <a-modal
       title="Adicionar Novo Contato"
       :visible="visible"
@@ -47,7 +50,8 @@ export default {
         phones: []
       },
       visible: false,
-      confirmLoading: false
+      confirmLoading: false,
+      loading: true
     };
   },
   computed: {

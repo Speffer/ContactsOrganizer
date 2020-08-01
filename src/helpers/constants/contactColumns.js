@@ -1,7 +1,7 @@
 let contactColumns = [{
   title: 'ID',
   dataIndex: 'id',
-  width: 80,
+  width: '5%',
   scopedSlots: { 
     customRender: 'id',
     filterDropdown: 'filterDropdown',
@@ -11,14 +11,13 @@ let contactColumns = [{
     record.id
       .toString()
       .toLowerCase()
-      .includes(value.toLowerCase()),
-  fixed: 'left'
+      .includes(value.toLowerCase())
 }, {
   title: 'Contato',
   children: [{
     title: 'Nome',
     dataIndex: 'name',
-    width: 200,
+    width: '15%',
     scopedSlots: { 
       customRender: 'name',
       filterDropdown: 'filterDropdown',
@@ -32,18 +31,18 @@ let contactColumns = [{
   }, {
     title: 'Telefones',
     dataIndex: 'phones',
-    width: 600,
+    width: '40%',
     scopedSlots: { customRender: 'phones' }
   }, {
     title: 'Data de cadastro',
-    dataIndex: 'createdAt',
-    width: 150,
-    scopedSlots: { customRender: 'createdAt' }
+    dataIndex: 'created_at',
+    width: '15%',
+    scopedSlots: { customRender: 'created_at' }
   }, {
     title: 'Data da última edição',
-    dataIndex: 'updatedAt',
-    width: 150,
-    scopedSlots: { customRender: 'updatedAt' }
+    dataIndex: 'updated_at',
+    width: '15%',
+    scopedSlots: { customRender: 'updated_at' }
   }]
 }, {
   title: 'Informações da Empresa Relacionada',
@@ -60,7 +59,7 @@ let contactColumns = [{
         .toString()
         .toLowerCase()
         .includes(value.toLowerCase()),
-    width: 250
+    width: '10%'
   }, {
     title: 'CPF/CNPJ',
     dataIndex: 'company.document',
@@ -74,7 +73,7 @@ let contactColumns = [{
         .toString()
         .toLowerCase()
         .includes(value.toLowerCase()),
-    width: 200
+    width: '10%'
   }, {
     title: 'Munícipio',
     dataIndex: 'company.city',
@@ -87,36 +86,14 @@ let contactColumns = [{
       record.company.city
         .toString()
         .toLowerCase()
-        .includes(value.toLowerCase()),
-    width: 230
-  }, {
-    title: 'RG',
-    dataIndex: 'company.RG',
-    width: 200
-  }, {
-    title: 'Data de Nascimento',
-    dataIndex: 'company.birthday', 
-    width: 150
-  }, {
-    title: 'Nome Fantasia',
-    scopedSlots: { 
-      customRender: 'company.fantasyName',
-      filterDropdown: 'filterDropdown',
-      filterIcon: 'filterIcon'
-    },
-    onFilter: (value, record) =>
-      record.company.fantasyName
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    dataIndex: 'company.fantasyName'
+        .includes(value.toLowerCase())
   }]
 }, {
   title: 'Ação',
   dataIndex: 'operation',
-  width: 120,
-  scopedSlots: { customRender: 'operation' },
-  fixed: 'right'
+  width: '5%',
+  fixed: 'right',
+  scopedSlots: { customRender: 'operation' }
 }];
 
 export default contactColumns;

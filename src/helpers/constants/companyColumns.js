@@ -1,7 +1,7 @@
 let companyColumns = [{
   title: 'ID',
   dataIndex: 'id',
-  width: 80,
+  width: '10%',
   scopedSlots: { 
     customRender: 'id',
     filterDropdown: 'filterDropdown',
@@ -11,8 +11,7 @@ let companyColumns = [{
     record.id
       .toString()
       .toLowerCase()
-      .includes(value.toLowerCase()),
-  fixed: 'left'
+      .includes(value.toLowerCase())
 }, {
   title: 'Nome',
   dataIndex: 'name',
@@ -26,7 +25,7 @@ let companyColumns = [{
       .toString()
       .toLowerCase()
       .includes(value.toLowerCase()),
-  width: 250
+  width: '20%'
 }, {
   title: 'CPF/CNPJ',
   dataIndex: 'document',
@@ -40,57 +39,22 @@ let companyColumns = [{
       .toString()
       .toLowerCase()
       .includes(value.toLowerCase()),
-  width: 200
-}, {
-  title: 'Munícipio',
-  dataIndex: 'city',
-  scopedSlots: { 
-    customRender: 'city',
-    filterDropdown: 'filterDropdown',
-    filterIcon: 'filterIcon'
-  },
-  onFilter: (value, record) =>
-    record.city
-      .toString()
-      .toLowerCase()
-      .includes(value.toLowerCase()),
-  width: 230
-}, {
-  title: 'RG',
-  dataIndex: 'RG',
-  width: 200
-}, {
-  title: 'Data de Nascimento',
-  dataIndex: 'birthday', 
-  width: 200
-}, {
-  title: 'Nome Fantasia',
-  scopedSlots: { 
-    customRender: 'fantasyName',
-    filterDropdown: 'filterDropdown',
-    filterIcon: 'filterIcon'
-  },
-  onFilter: (value, record) =>
-    record.fantasyName
-      .toString()
-      .toLowerCase()
-      .includes(value.toLowerCase()),
-  dataIndex: 'fantasyName'
+  width: '20%'
 }, {
   title: 'Data de cadastro',
-  dataIndex: 'createdAt',
-  width: 150,
-  scopedSlots: { customRender: 'createdAt' }
+  dataIndex: 'created_at',
+  width: '15%',
+  scopedSlots: { customRender: 'created_at' }
 }, {
   title: 'Data da última edição',
-  dataIndex: 'updatedAt',
-  scopedSlots: { customRender: 'updatedAt' }
+  dataIndex: 'updated_at',
+  width: '15%',
+  scopedSlots: { customRender: 'updated_at' }
 }, {
   title: 'Ação',
   dataIndex: 'operation',
-  width: 120,
-  scopedSlots: { customRender: 'operation' },
-  fixed: 'right'
+  width: '5%',
+  scopedSlots: { customRender: 'operation' }
 }];
 
 export default companyColumns;

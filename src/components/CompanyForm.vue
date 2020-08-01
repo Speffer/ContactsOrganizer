@@ -39,8 +39,8 @@
         <a-input v-model="form.RG" />
       </a-form-model-item>
 
-      <a-form-model-item prop="fantasyName" v-if="form.type === documentType.CNPJ" label="Nome Fantasia">
-        <a-input v-model="form.fantasyName" />
+      <a-form-model-item prop="fantasy_name" v-if="form.type === documentType.CNPJ" label="Nome Fantasia">
+        <a-input v-model="form.fantasy_name" />
       </a-form-model-item>
       
     </a-form-model>
@@ -77,8 +77,8 @@ export default {
         }, {
           message: 'O RG precisa ser composto por números apenas', trigger: 'blur', pattern: /^[0-9]+$/
         }],
-        fantasyName: [{
-          required: this.form.type === documentType.CNPJ, message: 'Por favor preencha o RG', trigger: 'blur'
+        fantasy_name: [{
+          required: this.form.type === documentType.CNPJ, message: 'Por favor preencha o Nome Fantasia', trigger: 'blur'
         }],
         document: [{
           required: true, message: 'Por favor preencha o número do documento', trigger: 'blur'

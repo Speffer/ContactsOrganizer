@@ -7,16 +7,17 @@
       Adicionar Empresa
     </a-button>
   </div>
+  
   <Table 
     :dataSource="data" 
     :columns="columns" 
     :pageNumber="30" 
-    :scrollSize="{ x: 'calc(950px + 50%)', y: 400 }"
-    :editableCells="['name', 'city', 'fantasyName']"
+    :scrollSize="{ y: 400 }"
     :filterCells="['name', 'city', 'fantasyName', 'document', 'id']"
-    :updateAction="updateCompany"
-    :deleteAction="deleteCompany"
+    page="company"
+    :loading="loading"
   />
+
   <a-modal
       title="Adicionar Nova Empresa"
       :visible="visible"
@@ -36,6 +37,7 @@
 import companyColumns from '../helpers/constants/companyColumns';
 import documentType from '../helpers/constants/documentType';
 import { mapState, mapActions } from 'vuex';
+import moment from 'moment';
 
 export default {
   name: 'CompanyPage',
@@ -45,12 +47,13 @@ export default {
       columns: companyColumns,
       visible: false,
       confirmLoading: false,
+      loading: true,
       form: {
         type: 1,
         name: '',
         city: '',
         birthday: null,
-        fantasyName: '',
+        fantasy_name: '',
         RG: '',
         document: ''
       },
@@ -63,7 +66,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('company', ['updateCompany', 'deleteCompany', 'addCompany']),
+    ...mapActions('company', ['addCompany', 'storeCompanies']),
     changeModal() {
       this.visible = !this.visible;
     },
@@ -74,7 +77,7 @@ export default {
         name: '',
         city: '',
         birthday: null,
-        fantasyName: '',
+        fantasy_name: '',
         RG: '',
         document: ''
       };
@@ -85,25 +88,36 @@ export default {
     },
 
     async handleOk(e) {
-      if (this.refValidate) {
-        try {
-          this.confirmLoading = true;
+      // if (this.refValidate) {
+      try {
+        this.confirmLoading = true;
 
-          this.form['id'] = 6;
-          this.form['key'] = 6;
+        if (this.form.birthday) this.form.birthday = moment(this.form.birthday).format('YYYY-DD-MM'); 
 
-          this.addCompany(this.form);
-          
-          setTimeout(() => {
+        await this.addCompany(this.form)
+          .then(() => {
             this.visible = false;
             this.confirmLoading = false;
             this.resetForm();
-          }, 3000);
-        } catch (e) {
-
-        }
+          })
+          .catch(e => this.$swal({
+            icon: 'error',
+            title: 'Oops...',
+            text: e
+          }));
+      } catch (e) {
+        this.$swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: e
+        });
       }
     }
+    // }
+  },
+  mounted: function() {
+    this.$store.dispatch('company/storeCompanies')
+      .then(() => { this.loading = false });
   }
 };
 </script>

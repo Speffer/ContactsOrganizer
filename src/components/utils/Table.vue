@@ -1,8 +1,9 @@
 <template>
-<div>
-  <a-table 
+<a-skeleton :loading="loading" active>
+  <a-table
+    :loading="loading"
     :columns="columns" 
-    :data-source="data" 
+    :data-source="dataSource" 
     bordered 
     :pagination="{ pageSize: pageNumber }"
     :scroll="scrollSize"
@@ -46,7 +47,7 @@
     >
       <span :key="i" v-if="searchText && searchedColumn === column.dataIndex">
         <template>
-          {{ fragment }}
+          {{ text }}
         </template>
       </span>
       <template v-else>
@@ -65,70 +66,44 @@
       </template>
     </span>
 
-    <template
-      v-for="col in editableCells"
-      :slot="col"
-      slot-scope="text, record"
-    >
-      <div :key="col">
-        <a-input
-          v-if="record.editable"
-          style="margin: -5px 0"
-          :value="text"
-          @change="e => handleChange(e.target.value, record.key, col)"
-        />
-        <template v-else>
-          {{ text }}
-        </template>
-      </div>
-    </template>
+    <span slot="created_at" slot-scope="created_at">
+      {{ moment(created_at.slice(1, created_at.length - 1)).format('DD/MM/YYYY') }}
+    </span>
+
+    <span slot="updated_at" slot-scope="updated_at">
+      {{ moment(updated_at.slice(1, updated_at.length - 1)).format('DD/MM/YYYY') }}
+    </span>
+
     <template slot="operation" slot-scope="text, record">
-      <div class="editable-row-operations">
-        <span v-if="record.editable">
-          <a @click="() => save(record.key)">Salvar</a>
-          <a-popconfirm 
-            title="Certeza que quer cancelar?" 
-            @confirm="() => cancel(record.key)"
-            ok-text="Sim!" 
-            cancel-text="Não."
-          >
-            <a>Cancelar</a>
-          </a-popconfirm>
-        </span>
-        <span v-else>
-          <a-tooltip>
-            <template slot="title">
-              Editar
-            </template>
-            <a :disabled="editingKey" @click="() => edit(record.key)">
-              <a-icon type="edit" :style="{ fontSize: '150%', marginRight: '10%', marginLeft: '10%'}"/>
-            </a>
-          </a-tooltip>
-          
-          <a-popconfirm
-            v-if="data.length"
-            title="Certeza que quer deletar?"
-            @confirm="() => onDelete(record.key)"
-            ok-text="Sim!" 
-            cancel-text="Não, cancelar."
-          >
-            <a-tooltip>
-              <template slot="title">
-                Deletar
-              </template>
-              <a href="javascript:;">
-                <a-icon type="delete" :style="{ fontSize: '150%', marginLeft: '10%', marginRight: '10%'}"/>
-              </a>
-            </a-tooltip>
-          </a-popconfirm>
-        </span>
-      </div>
+      <span>
+        <a-tooltip>
+          <template slot="title">
+            Clique para ver mais informações
+          </template>
+          <a-icon 
+            type="info-circle" 
+            :style="{ fontSize: '200%', margin: '10%', color: '#1890ff', cursor: 'pointer'}"
+            @click="seeMoreInfo(record)"
+          />
+        </a-tooltip>
+      </span>
     </template>
   </a-table>
-</div>
+
+  <a-modal
+    v-model="companyMoreVisible"
+    title="Detalhes da Empresa"
+    :footer="null"
+  >
+    <CompanySeeMore :form="company" :visible="closeMoreInfo" />
+  </a-modal>
+</a-skeleton>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+import moment from 'moment';
+
 export default {
   name: 'Table',
   props: [
@@ -136,71 +111,53 @@ export default {
     'columns', 
     'pageNumber', 
     'scrollSize', 
-    'editableCells',
     'filterCells',
-    'updateAction',
-    'deleteAction'
+    'loading',
+    'page'
   ],
   data() {
     return {
-      editingKey: null,
       searchText: '',
       searchInput: null,
       searchedColumn: '', 
-      cacheData: [],
-      data: this.dataSource
+      data: [...this.dataSource],
+      companyMoreVisible: false,
+      contactMoreVisible: false,
+      moment
     };
   },
+  computed: {
+    ...mapState({
+      company: state => state.company.company
+    })
+  },
   methods: {
-    handleChange(value, key, column) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      if (target) {
-        target[column] = value;
-        this.data = newData;
+    ...mapActions('company', ['getCompany', 'storeCompanies']),
+
+    seeMoreInfo(column) {
+      if (this.page === 'company') {
+        this.getCompany(column.id)
+          .then(() => { this.companyMoreVisible = true });
       }
+
+      if (this.page === 'contact') this.contactMoreVisible = true;
     },
-    onDelete(key) {
-      const data = [...this.data];
-      const target = data.filter(item => key === item.key)[0];
-      this.deleteAction(target);
-    },
-    edit(key) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      this.editingKey = key;
-      if (target) {
-        target.editable = true;
-        this.data = newData;
+
+    closeMoreInfo() {
+      if (this.page === 'company') {
+        this.storeCompanies()
+          .then(() => { this.companyMoreVisible = false });
       }
+
+      if (this.page === 'contact') this.contactMoreVisible = true;
     },
-    save(key) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      if (target) {
-        delete target.editable;
-        this.data = newData;
-        Object.assign(target);
-        this.cacheData = newData;
-      }
-      this.editingKey = null;
-      this.updateAction(target);
-    },
-    cancel(key) {
-      const newData = [...this.data];
-      const target = newData.filter(item => key === item.key)[0];
-      this.editingKey = null;
-      if (target) {
-        Object.assign(target, this.cacheData.filter(item => key === item.key)[0]);
-        delete target.editable;
-        this.data = newData;
-      }
-    },
+
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
       this.searchedColumn = dataIndex;
     }, 
+    
     handleReset(clearFilters) {
       clearFilters();
       this.searchText = '';
