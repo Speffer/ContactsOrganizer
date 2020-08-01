@@ -6,13 +6,13 @@
         <a-menu
           theme="dark"
           mode="horizontal"
-          :default-selected-keys="['1']"
+          :default-selected-keys="[$route.name]"
           :style="{ lineHeight: '64px' }"
         >
-          <a-menu-item key="1">
+          <a-menu-item key="ContactPage">
             <router-link to="/">Contatos</router-link>
           </a-menu-item>
-          <a-menu-item key="2">
+          <a-menu-item key="CompanyPage">
             <router-link to="/company">Empresas</router-link>
           </a-menu-item>
         </a-menu>
