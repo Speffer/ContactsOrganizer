@@ -91,6 +91,7 @@ export default {
       try {
         this.confirmLoading = true;
 
+        this.form.document = this.form.document.replace(/[^0-9]+/g, '');
         if (this.form.birthday) this.form.birthday = moment(this.form.birthday).format('YYYY-MM-DD'); 
 
         await this.addCompany(this.form)

@@ -58,7 +58,7 @@
     <span slot="phones" slot-scope="phones">
       <template v-for="(phone, i) in phones">
         <span v-if="phones.length" :key="phone.id+i">
-          {{ phone.number }} | 
+          {{ phone.number| VMask('(##) ####-####') }} | 
         </span>
         <template v-else>
           Sem número cadastrado

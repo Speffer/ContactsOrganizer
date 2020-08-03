@@ -20,8 +20,12 @@
         </a-radio-group>
       </a-form-model-item>
 
-      <a-form-model-item prop="document" label="Número do Documento">
-        <a-input v-model="form.document" />
+      <a-form-model-item v-if="form.type === documentType.CPF" prop="document" label="Número do Documento">
+        <a-input v-model="form.document" v-mask="'###.###.###-##'" />
+      </a-form-model-item>
+
+      <a-form-model-item v-if="form.type === documentType.CNPJ" prop="document" label="Número do Documento">
+        <a-input v-model="form.document" v-mask="'##.###.###/####-##'" />
       </a-form-model-item>
 
       <a-form-model-item prop="birthday" v-if="form.type === documentType.CPF" label="Data de Nascimento">
@@ -82,8 +86,6 @@ export default {
         }],
         document: [{
           required: true, message: 'Por favor preencha o número do documento', trigger: 'blur'
-        }, {
-          message: 'O documento precisa ser composto por números apenas', trigger: 'blur', pattern: /^[0-9]+$/
         }]
       }
     };

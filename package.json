@@ -16,6 +16,7 @@
     "ant-design-vue": "^1.6.4",
     "axios": "^0.19.2",
     "moment": "^2.27.0",
+    "v-mask": "^2.2.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vue-sweetalert2": "^3.0.6",

@@ -74,7 +74,7 @@ export default {
         this.confirmLoading = true;
         
         this.form.phones.forEach((phone, index) => {
-          phonesData.push(phone.value);
+          phonesData.push(phone.value.replace(/[^0-9]+/g, ''));
         });
 
         this.form.phones = phonesData;

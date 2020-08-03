@@ -23,6 +23,7 @@
         :prop="'phones.' + index + '.value'"
       >
         <a-input
+          v-mask="'(##) ####-####'"
           v-model="phone.value"
           placeholder="Por favor escreva seu telefone"
           style="width: 80%; margin-right: 8px"

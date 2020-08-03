@@ -23,6 +23,7 @@
         :prop="'phones.' + index + '.number'"
       >
         <a-input
+          v-mask="'(##) ####-####'"
           v-model="phone.number"
           disabled
           placeholder="Por favor escreva seu telefone"
@@ -36,6 +37,7 @@
         :prop="'phones.' + index + '.number'"
       >
         <a-input
+          v-mask="'(##) ####-####'"
           v-model="phone.number"
           placeholder="Por favor escreva seu telefone"
           style="width: 80%; margin-right: 8px"
@@ -169,7 +171,7 @@ export default {
 
           if (this.newPhones.length > 0) {
             this.newPhones.forEach((phone, index) => {
-              phonesData.push(phone.number);
+              phonesData.push(phone.number.replace(/[^0-9]+/g, ''));
             });
           }
 

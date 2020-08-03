@@ -9,8 +9,12 @@
         <a-input v-model="form.city" />
       </a-form-model-item>
 
-      <a-form-model-item prop="document" label="Número do Documento">
-        <a-input disabled v-model="form.document" />
+      <a-form-model-item v-if="form.type === documentType.CPF" prop="document" label="Número do Documento">
+        <a-input disabled v-model="form.document" v-mask="'###.###.###-##'" />
+      </a-form-model-item>
+
+      <a-form-model-item v-if="form.type === documentType.CNPJ" prop="document" label="Número do Documento">
+        <a-input disabled v-model="form.document" v-mask="'##.###.###/####-##'" />
       </a-form-model-item>
 
       <a-form-model-item prop="birthday" v-if="form.type === documentType.CPF" label="Data de Nascimento">
@@ -138,6 +142,7 @@ export default {
             key: this.form.companyId
           };
 
+          newData.document = newData.document.replace(/[^0-9]+/g, '');
           newData.birthday = moment(newData.birthday).format('YYYY-MM-DD');
 
           await this.updateCompany(newData)
