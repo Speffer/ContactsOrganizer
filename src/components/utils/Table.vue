@@ -66,6 +66,15 @@
       </template>
     </span>
 
+    <span slot="document" slot-scope="document">
+      <span v-if="document.length === 14">
+        {{ document| VMask('##.###.###/####-##') }}
+      </span>
+      <template v-if="document.length === 11">
+        {{ document| VMask('###.###.###-##') }}
+      </template>
+    </span>
+
     <span slot="created_at" slot-scope="created_at">
       {{ moment(created_at.slice(1, created_at.length - 1)).format('DD/MM/YYYY') }}
     </span>
@@ -91,7 +100,7 @@
   </a-table>
 
   <a-modal
-    v-model="companyMoreVisible"
+    :visible="companyMoreVisible"
     title="Detalhes da Empresa"
     :footer="null"
   >
@@ -99,7 +108,7 @@
   </a-modal>
 
   <a-modal
-    v-model="contactMoreVisible"
+    :visible="contactMoreVisible"
     title="Detalhes do Contato"
     :footer="null"
   >

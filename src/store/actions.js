@@ -67,11 +67,12 @@ const companyActions = () => {
             document: data.company.document,
             fantasyName: data.fantasy_name || null,
             rg: data.rg || null,
-            birthday: moment(data.birthday.slice(1, data.birthday.length - 1)).format('YYYY-MM-DD') || null,
             id: data.id,
             companyId: id,
-            type: data.company.document.length === 13 ? documentType.CNPJ : documentType.CPF
+            type: data.company.document.length === 14 ? documentType.CNPJ : documentType.CPF
           };
+
+          company['birthday'] = company.type === documentType.CPF && moment(data.birthday.slice(1, data.birthday.length - 1)).format('YYYY-MM-DD');
 
           store.commit('storeCompany', company);
         })

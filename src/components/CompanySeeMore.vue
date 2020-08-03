@@ -36,27 +36,31 @@
         <a-input v-model="form.fantasyName" />
       </a-form-model-item>
 
-      <a-form-model-item :wrapper-col="{ span: 14, offset: 14 }">
+      <a-form-model-item :wrapper-col="{ span: 20, offset: 11 }">
         <a-button type="primary" @click="onSubmit">
           <a-icon type="edit" :style="{ fontSize: '110%'}"/>
           Salvar Edição
         </a-button>
 
         <a-popconfirm
-            title="Certeza que quer deletar?"
-            @confirm="() => onDelete()"
-            ok-text="Sim!" 
-            cancel-text="Não, cancelar."
-          >
-            <a-tooltip>
-              <template slot="title">
-                Deletar Empresa
-              </template>
-              <a-button type="danger" style="margin-left: 10px;">
-                <a-icon type="delete" :style="{ fontSize: '110%'}"/>
-              </a-button>
-            </a-tooltip>
-          </a-popconfirm>
+          title="Certeza que quer deletar?"
+          @confirm="() => onDelete()"
+          ok-text="Sim!" 
+          cancel-text="Não, cancelar."
+        >
+          <a-tooltip>
+            <template slot="title">
+              Deletar Empresa
+            </template>
+            <a-button type="danger" style="margin-left: 10px;">
+              <a-icon type="delete" :style="{ fontSize: '110%'}"/>
+            </a-button>
+          </a-tooltip>
+        </a-popconfirm>
+
+        <a-button style="margin-left: 2%" type="dashed" @click="() => { visible && visible() }">
+          <a-icon type="close" :style="{ fontSize: '110%'}"/>
+        </a-button>
         
       </a-form-model-item>
         
